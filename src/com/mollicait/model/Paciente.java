@@ -2,21 +2,32 @@ package com.mollicait.model;
 
 public class Paciente {
 	private String nome;
-	private String sexo;
+	private Sexo sexo;
+	private int idade;
 	private double peso;
 	private double altura;
+	
+	
+	
 	public String getNome() {
 		return nome;
 	}
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
-	public String getSexo() {
+	public Sexo getSexo() {
 		return sexo;
 	}
-	public void setSexo(String sexo) {
+	public void setSexo(Sexo sexo) {
 		this.sexo = sexo;
 	}
+	public int getIdade() {
+		return idade;
+	}
+	public void setIdade(int idade) {
+		this.idade = idade;
+	}
+
 	public double getPeso() {
 		return peso;
 	}
@@ -31,7 +42,8 @@ public class Paciente {
 	}
 	@Override
 	public String toString() {
-		return "Paciente [nome=" + nome + ", sexo=" + sexo + ", peso=" + peso + ", altura=" + altura + "]";
+		return "Paciente [nome=" + nome + ", sexo=" + sexo + ", idade=" + idade + ", peso=" + peso + ", altura="
+				+ altura + "]";
 	}
 	
 }
