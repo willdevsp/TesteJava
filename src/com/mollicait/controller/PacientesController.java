@@ -60,20 +60,17 @@ public class PacientesController {
 		
 	}
 	
-	public double mediaIdadeHomens(List<Paciente> pacientes){
-		
-		double media = 0;
-		
+	public double mediaIdadeHomens(List<Paciente> pacientes){		
+		double media = 0;		
 		if(pacientes.size() == 0){
 			System.out.println("Não existem pacientes homens");
 		}else{
 			double idade = 0;
-			long qntHomem = 0;
-			for(Paciente paciente: pacientes){
-				
+			long qttHomem = 0;
+			for(Paciente paciente: pacientes){				
 				if(paciente.getSexo() == Sexo.M){
 					 idade+= paciente.getIdade();
-					 qntHomem++;
+					 qttHomem++;
 				}								
 			}
 		}
@@ -81,5 +78,26 @@ public class PacientesController {
 		return media;
 	}
 	
-
+	public void quantidadeMulheresAlturaPeso(List<Paciente> pacientes){
+		long qttMulheres = 0;
+		if(pacientes.size() == 0){
+			System.out.println("Não existem pacientes mulheres");
+		}else{
+			for(Paciente paciente: pacientes){
+				if(paciente.getSexo() == Sexo.F){
+					if(paciente.getAltura() >= 1.60 && paciente.getAltura()<=1.70
+							&& paciente.getPeso()> 70){
+						qttMulheres++;					
+					}
+					
+				}
+			}
+		}		
+		System.out.println("A quantidade de mulheres com altura entre 1,60 e 1,70 e acima de 80 kilos é: "+ qttMulheres);	
+	}
+	
+	public void quantidadePessoasEntreIdades(List<Paciente> pacientes){
+		
+	}
+	
 }
