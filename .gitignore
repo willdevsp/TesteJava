@@ -2,4 +2,4 @@
 .classpath
 *.prefs
 .settings
-bin
+/bin/
