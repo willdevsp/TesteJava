@@ -13,9 +13,11 @@ public class StartApplication {
 	
 	public static void execute(){
 		PacientesController pacientesController = new PacientesController();
-			List<Paciente> p = pacientesController.cadastrarPacientes();
-			pacientesController.quantidadePacientes(p);	
-			pacientesController.mediaIdadeHomens(p);
+			List<Paciente> pacientes = pacientesController.cadastrarPacientes();
+			pacientesController.quantidadePacientes(pacientes);	
+			pacientesController.mediaIdadeHomens(pacientes);
+			pacientesController.quantidadeMulheresAlturaPeso(pacientes);
+			pacientesController.quantidadePessoasEntreIdades(pacientes);
 			
 	}
 }

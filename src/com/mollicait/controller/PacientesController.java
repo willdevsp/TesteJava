@@ -49,8 +49,7 @@ public class PacientesController {
 
 		}
 
-		System.out.println("Saindo do cadastro de pacientes. . . \n============================="
-				+ "===============================\n\n\n");
+		separador();
 
 		return pacientes;
 	}
@@ -60,7 +59,7 @@ public class PacientesController {
 		
 	}
 	
-	public double mediaIdadeHomens(List<Paciente> pacientes){		
+	public void mediaIdadeHomens(List<Paciente> pacientes){		
 		double media = 0;		
 		if(pacientes.size() == 0){
 			System.out.println("Não existem pacientes homens");
@@ -75,7 +74,7 @@ public class PacientesController {
 			}
 		}
 		System.out.println("A Media de idade dos homes é de: "+media+" anos");
-		return media;
+		separador();
 	}
 	
 	public void quantidadeMulheresAlturaPeso(List<Paciente> pacientes){
@@ -93,11 +92,28 @@ public class PacientesController {
 				}
 			}
 		}		
-		System.out.println("A quantidade de mulheres com altura entre 1,60 e 1,70 e acima de 80 kilos é: "+ qttMulheres);	
+		System.out.println("A quantidade de mulheres com altura entre 1,60 e 1,70 e acima de 80 kilos é: "+ qttMulheres);
+		separador();
 	}
 	
 	public void quantidadePessoasEntreIdades(List<Paciente> pacientes){
-		
+		long qttPaciente = 0;
+		if(pacientes.size() == 0){
+			System.out.println("Não existem pacientes cadastrado");
+		}else{ 
+			for(Paciente paciente: pacientes){
+				if(paciente.getIdade()>=18 && paciente.getIdade()<=25){
+					qttPaciente++;
+				}
+			}
+		}
+		System.out.println("A quantidade de pacientes entre 18 e 25 anos é de : "+qttPaciente);
+		separador();
+	}
+	
+	public void separador (){
+		System.out.println("\n============================================================"
+				+ "============================================================\n");
 	}
 	
 }
