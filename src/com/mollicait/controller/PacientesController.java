@@ -55,7 +55,7 @@ public class PacientesController {
 	}
 
 	public void quantidadePacientes(List<Paciente> pacientes) {
-		System.out.println(String.format("%s Pacientes cadastrados: ", pacientes.size()));
+		System.out.println(String.format("%s Pacientes cadastrados ", pacientes.size()));
 		separador();
 	}
 
@@ -142,14 +142,12 @@ public class PacientesController {
 		} else {
 			Collections.sort(pacientes);
 			nomeMulherMaisBaixa = pacientes.stream().findFirst().get().getNome();
-
 		}
-		System.out.println(String.format("A paciente mais baixa se chama: %s", nomeMulherMaisBaixa));
+		System.out.println(String.format("%s é a paciente mais baixa", nomeMulherMaisBaixa));
 		separador();
 	}
 
 	public void calculaIMC(List<Paciente> pacientes) {
-
 		if (pacientes.isEmpty()) {
 			System.out.println("Não existem pacientes cadastrado");
 		} else {
