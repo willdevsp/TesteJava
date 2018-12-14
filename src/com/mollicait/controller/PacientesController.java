@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import com.mollicait.model.Paciente;
@@ -56,13 +57,13 @@ public class PacientesController {
 	
 	public void quantidadePacientes(List<Paciente> pacientes){
 		System.out.println("Quantidade de pacientes cadastrados: "+pacientes.size());		
-		
+		separador();
 	}
 	
 	public void mediaIdadeHomens(List<Paciente> pacientes){		
-		double media = 0;		
-		if(pacientes.size() == 0){
-			System.out.println("NÃ£o existem pacientes homens");
+		double media = 0;
+		if(pacientes.isEmpty()){
+			System.out.println("não existem pacientes homens");
 		}else{
 			double idade = 0;
 			long qttHomem = 0;
@@ -72,33 +73,34 @@ public class PacientesController {
 					 qttHomem++;
 				}								
 			}
+			media = idade/qttHomem;
 		}
-		System.out.println("A Media de idade dos homes Ã© de: "+media+" anos");
+		
+		System.out.println("A Media de idade dos homens é de: "+media+" anos");
 		separador();
 	}
 	
 	public void quantidadeMulheresAlturaPeso(List<Paciente> pacientes){
 		long qttMulheres = 0;
-		if(pacientes.size() == 0){
+		if(pacientes.isEmpty()){
 			System.out.println("NÃ£o existem pacientes mulheres");
 		}else{
 			for(Paciente paciente: pacientes){
 				if(paciente.getSexo() == Sexo.F){
-					if(paciente.getAltura() >= 1.60 && paciente.getAltura()<=1.70
-							&& paciente.getPeso()> 70){
+					if((paciente.getAltura()<=1.70) && (paciente.getAltura() >= 1.60) && paciente.getPeso()>70){
 						qttMulheres++;					
 					}
 					
 				}
 			}
 		}		
-		System.out.println("A quantidade de mulheres com altura entre 1,60 e 1,70 e acima de 80 kilos Ã©: "+ qttMulheres);
+		System.out.println("A quantidade de mulheres com altura entre 1,60 e 1,70 e acima de 70 kilos é de: "+ qttMulheres);
 		separador();
 	}
 	
 	public void quantidadePessoasEntreIdades(List<Paciente> pacientes){
 		long qttPaciente = 0;
-		if(pacientes.size() == 0){
+		if(pacientes.isEmpty()){
 			System.out.println("NÃ£o existem pacientes cadastrado");
 		}else{ 
 			for(Paciente paciente: pacientes){
@@ -113,7 +115,7 @@ public class PacientesController {
 	
 	public void nomePacienteMaisVelho(List<Paciente> pacientes) {
 		String nomePacienteMaisVelho = null;
-		if(pacientes.size() == 0) {
+		if(pacientes.isEmpty()) {
 			System.out.println("Não existem pacientes cadastrado");
 		}else {
 			int pacienteMaisVelho = 0;
@@ -126,7 +128,45 @@ public class PacientesController {
 			}
 		}
 		System.out.println("O paciente mais velho se chama: " + nomePacienteMaisVelho);
+		separador();
+	}
+	
+	public void nomeMulherMaisBaixa(List<Paciente> pacientes) {
+		String nomeMulherMaisBaixa = null;
+		if(pacientes.isEmpty()) {
+			System.out.println("Não existem pacientes cadastrado");
+		}else {
+			Collections.sort(pacientes);
+			nomeMulherMaisBaixa=pacientes.stream().findFirst().get().getNome();
+			
+		}
+		System.out.println(String.format("A paciente mais baixa se chama: %s", nomeMulherMaisBaixa));
+		separador();
+	}
+	
+	
+	public void calculaIMC(List<Paciente> pacientes) {
 		
+		if(pacientes.isEmpty()) {
+			System.out.println("Não existem pacientes cadastrado");
+		}else {
+			for(Paciente paciente: pacientes) {
+				double altura = paciente.getAltura();
+				double peso = paciente.getPeso();
+				double imc = peso/(altura*altura);
+				String msg = null;
+				if(imc < 18) {
+					msg = "abaixo do peso";
+				}else if((imc>=18) && (imc <=25)) {
+					msg = "peso normal";
+				}else {
+					msg = "Obeso";
+				}
+				System.out.println(String.format("A Media de peso de %s é %.2f sua situação é  %s ", paciente.getNome(), imc,msg));
+				
+			}
+		}
+		separador();
 	}
 	
 	public void separador (){

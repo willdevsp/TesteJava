@@ -1,6 +1,6 @@
 package com.mollicait.model;
 
-public class Paciente {
+public class Paciente implements Comparable<Paciente>{
 	private String nome;
 	private Sexo sexo;
 	private int idade;
@@ -45,5 +45,16 @@ public class Paciente {
 		return "Paciente [nome=" + nome + ", sexo=" + sexo + ", idade=" + idade + ", peso=" + peso + ", altura="
 				+ altura + "]";
 	}
+	
+	public int compareTo(Paciente paciente) {
+		if(this.altura < paciente.altura)
+			return -1;
+		if(this.altura > paciente.altura) {
+			return 1;
+		}
+		return 0;
+	}
+	
+
 	
 }
