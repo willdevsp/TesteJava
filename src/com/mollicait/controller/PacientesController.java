@@ -5,7 +5,12 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+import java.util.function.Supplier;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import com.mollicait.model.Paciente;
 import com.mollicait.model.Sexo;
@@ -28,7 +33,7 @@ public class PacientesController {
 					break;
 				System.out.print("Digite M para Sexo Masculino ou F para Sexo Feminino: ");
 				String sexo = br.readLine();
-				System.out.println("Digite a idade do paciente");
+				System.out.print("Digite a idade do paciente: ");
 				String idade = br.readLine();
 				System.out.print("Digite a altura do paciente: ");
 				String altura = br.readLine();
@@ -55,101 +60,82 @@ public class PacientesController {
 	}
 
 	public void quantidadePacientes(List<Paciente> pacientes) {
-		System.out.println(String.format("%s Pacientes cadastrados: ", pacientes.size()));
+		System.out.println(String.format("%s Pacientes cadastrados ", pacientes.size()));
 		separador();
 	}
 
 	public void mediaIdadeHomens(List<Paciente> pacientes) {
-
-		double media = 0;
+		double mediaIdade = 0;
 		if (pacientes.isEmpty()) {
 			System.out.println("não existem pacientes homens");
 		} else {
-			double idade = 0;
-			long qttHomem = 0;
-			for (Paciente paciente : pacientes) {
-				if (paciente.getSexo() == Sexo.M) {
-					idade += paciente.getIdade();
-					qttHomem++;
-				}
-			}
-			media = idade / qttHomem;
+			Supplier<Stream<Paciente>> homens = () -> pacientes.stream().filter(p -> p.getSexo()== Sexo.M);
+		    mediaIdade = homens.get().mapToDouble(Paciente::getIdade).average().getAsDouble();		    
 		}
 
-		System.out.println(String.format("Média de idade dos pacientes homens %S anos", media));
+		System.out.println(String.format("Média de idade dos pacientes homens %S anos", mediaIdade));
 		separador();
 	}
 
 	public void quantidadeMulheresAlturaPeso(List<Paciente> pacientes) {
 
-		long qttMulheres = 0;
+		List<Paciente> pacientesFilter = new ArrayList<Paciente>();
 		if (pacientes.isEmpty()) {
 			System.out.println("Não existem pacientes mulheres");
 		} else {
-			for (Paciente paciente : pacientes) {
-				if (paciente.getSexo() == Sexo.F) {
-					if ((paciente.getAltura() <= 1.70) && (paciente.getAltura() >= 1.60) && paciente.getPeso() > 70) {
-						qttMulheres++;
-					}
-
-				}
-			}
+			pacientesFilter = pacientes.stream()
+					.filter(m->m.getSexo() == Sexo.F)
+					.filter(m-> m.getAltura() >= 1.60)
+					.filter(m -> m.getAltura()<=1.70)
+					.filter(m -> m.getPeso()>70)
+					.collect(Collectors.toList());		
 		}
-		System.out.println(String.format("%s mulher(es) com Altura entre 1.60cm e 1.70cm com pe so maior que 70 quilos",
-				qttMulheres));
+		System.out.println(String.format("%s mulher(es) com Altura entre 1.60cm e 1.70cm com peso maior que 70 quilos",
+				pacientesFilter.size()));
 		separador();
 	}
 
 	public void quantidadePessoasEntreIdades(List<Paciente> pacientes) {
 
-		long qttPaciente = 0;
+		List<Paciente> pacientesFilter = new ArrayList<Paciente>();
 		if (pacientes.isEmpty()) {
 			System.out.println("Não existem pacientes cadastrado");
 		} else {
-			for (Paciente paciente : pacientes) {
-				if (paciente.getIdade() >= 18 && paciente.getIdade() <= 25) {
-					qttPaciente++;
-				}
-			}
-		}
+			pacientesFilter = pacientes.stream()
+					.filter(p -> p.getIdade() >= 18)
+					.filter(p ->p.getIdade()>=25)
+					.collect(Collectors.toList());			
+			}		
 
-		System.out.println(String.format("%s pacientes entre 18 e 25 anos", qttPaciente));
+		System.out.println(String.format("%s pacientes entre 18 e 25 anos", pacientesFilter.size()));
 		separador();
 	}
 
 	public void nomePacienteMaisVelho(List<Paciente> pacientes) {
-		String nomePacienteMaisVelho = null;
+		Paciente pacienteComparator = new Paciente();
 		if (pacientes.isEmpty()) {
 			System.out.println("Não existem pacientes cadastrado");
 		} else {
-			int pacienteMaisVelho = 0;
-			for (Paciente paciente : pacientes) {
-				if (paciente.getIdade() > pacienteMaisVelho) {
-					pacienteMaisVelho = paciente.getIdade();
-					nomePacienteMaisVelho = paciente.getNome();
-				}
-
-			}
+			Comparator<Paciente> comparator = Comparator.comparing(Paciente::getIdade);
+			pacienteComparator = pacientes.stream().max(comparator).get();			
 		}
-		System.out.println(String.format("%s é o paciente mais velho", nomePacienteMaisVelho));
+		System.out.println(String.format("%s é o paciente mais velho",pacienteComparator.getNome()));
 		separador();
 	}
 
-	public void nomeMulherMaisBaixa(List<Paciente> pacientes) {
-		String nomeMulherMaisBaixa = null;
+	public void nomeMulherMaisBaixa(List<Paciente> pacientes) {		
+		Paciente mulherMaisBaixa = new Paciente();
 		if (pacientes.isEmpty()) {
 			System.out.println("Não existem pacientes cadastrado");
-		} else {
-			Collections.sort(pacientes);
-			nomeMulherMaisBaixa = pacientes.stream().findFirst().get().getNome();
-
+		} else {			
+			Comparator<Paciente> comparator = Comparator.comparing(Paciente::getAltura);
+			mulherMaisBaixa = pacientes.stream().min(comparator).get();	
 		}
-		System.out.println(String.format("A paciente mais baixa se chama: %s", nomeMulherMaisBaixa));
+		System.out.println(String.format("%s é a paciente mais baixa ", mulherMaisBaixa.getNome()));
 		separador();
 	}
 
 	public void calculaIMC(List<Paciente> pacientes) {
-
 		if (pacientes.isEmpty()) {
 			System.out.println("Não existem pacientes cadastrado");
 		} else {
@@ -165,11 +151,13 @@ public class PacientesController {
 				} else {
 					msg = "Obeso";
 				}
-				System.out.println(String.format("A Media de peso de %s é %.2f sua situação é  %s ", paciente.getNome(),
+				System.out.println(String.format("A Media de peso de %s é %.2f sua situação é  %s \n", paciente.getNome(),
 						imc, msg));
 
 			}
 		}
+		double mediaIMC = pacientes.stream().mapToDouble(a ->a.getPeso()/(a.getAltura()*a.getAltura())).average().getAsDouble();
+		System.out.println(String.format("%.2f é media do IMC (indice de massa corporal) de todos os pacientes",mediaIMC));
 		separador();
 	}
 
