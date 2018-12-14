@@ -4,11 +4,10 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Supplier;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -66,14 +65,15 @@ public class PacientesController {
 
 	public void mediaIdadeHomens(List<Paciente> pacientes) {
 		double mediaIdade = 0;
-		if (pacientes.isEmpty()) {
-			System.out.println("não existem pacientes homens");
-		} else {
-			Supplier<Stream<Paciente>> homens = () -> pacientes.stream().filter(p -> p.getSexo()== Sexo.M);
-		    mediaIdade = homens.get().mapToDouble(Paciente::getIdade).average().getAsDouble();		    
+		Supplier<Stream<Paciente>> homens = () -> pacientes.stream().filter(p -> p.getSexo()== Sexo.M);
+		long qttHomens = homens.get().count();
+		if(qttHomens == 0) {
+			System.out.println("Não existem pacientes homens cadastrados");
+		}else {
+			mediaIdade = homens.get().mapToDouble(Paciente::getIdade).average().getAsDouble();
+			System.out.println(String.format("Média de idade dos pacientes homens %S anos", mediaIdade));
 		}
-
-		System.out.println(String.format("Média de idade dos pacientes homens %S anos", mediaIdade));
+		
 		separador();
 	}
 
@@ -88,10 +88,11 @@ public class PacientesController {
 					.filter(m-> m.getAltura() >= 1.60)
 					.filter(m -> m.getAltura()<=1.70)
 					.filter(m -> m.getPeso()>70)
-					.collect(Collectors.toList());		
+					.collect(Collectors.toList());
+			System.out.println(String.format("%s mulher(es) com Altura entre 1.60cm e 1.70cm com peso maior que 70 quilos",
+					pacientesFilter.size()));
 		}
-		System.out.println(String.format("%s mulher(es) com Altura entre 1.60cm e 1.70cm com peso maior que 70 quilos",
-				pacientesFilter.size()));
+
 		separador();
 	}
 
@@ -104,10 +105,11 @@ public class PacientesController {
 			pacientesFilter = pacientes.stream()
 					.filter(p -> p.getIdade() >= 18)
 					.filter(p ->p.getIdade()>=25)
-					.collect(Collectors.toList());			
-			}		
+					.collect(Collectors.toList());
+			System.out.println(String.format("%s pacientes entre 18 e 25 anos", pacientesFilter.size()));
+		}		
 
-		System.out.println(String.format("%s pacientes entre 18 e 25 anos", pacientesFilter.size()));
+		
 		separador();
 	}
 
@@ -117,22 +119,23 @@ public class PacientesController {
 			System.out.println("Não existem pacientes cadastrado");
 		} else {
 			Comparator<Paciente> comparator = Comparator.comparing(Paciente::getIdade);
-			pacienteComparator = pacientes.stream().max(comparator).get();			
+			pacienteComparator = pacientes.stream().max(comparator).get();
+			System.out.println(String.format("%s é o paciente mais velho(a)",pacienteComparator.getNome()));
 		}
-		System.out.println(String.format("%s é o paciente mais velho",pacienteComparator.getNome()));
+		
 		separador();
 	}
 
 	public void nomeMulherMaisBaixa(List<Paciente> pacientes) {		
-		Paciente mulherMaisBaixa = new Paciente();
-		if (pacientes.isEmpty()) {
-			System.out.println("Não existem pacientes cadastrado");
-		} else {			
 			Comparator<Paciente> comparator = Comparator.comparing(Paciente::getAltura);
-			mulherMaisBaixa = pacientes.stream().min(comparator).get();	
-		}
-		System.out.println(String.format("%s é a paciente mais baixa ", mulherMaisBaixa.getNome()));
-		separador();
+			Supplier<Stream<Paciente>> mulheresPaciente = () -> pacientes.stream().filter(p -> p.getSexo()== Sexo.F);			
+			if(mulheresPaciente.get().count() != 0) {
+				Paciente mulherMaisBaixa = new Paciente();
+				mulherMaisBaixa = mulheresPaciente.get().collect(Collectors.toList()).stream().min(comparator).get();
+				System.out.println(String.format("%s é a paciente mais baixa ", mulherMaisBaixa.getNome()));
+				separador();
+			}
+		
 	}
 
 	public void calculaIMC(List<Paciente> pacientes) {
@@ -155,9 +158,10 @@ public class PacientesController {
 						imc, msg));
 
 			}
+			double mediaIMC = pacientes.stream().mapToDouble(a ->a.getPeso()/(a.getAltura()*a.getAltura())).average().getAsDouble();
+			System.out.println(String.format("%.2f é media do IMC (indice de massa corporal) de todos os pacientes",mediaIMC));
 		}
-		double mediaIMC = pacientes.stream().mapToDouble(a ->a.getPeso()/(a.getAltura()*a.getAltura())).average().getAsDouble();
-		System.out.println(String.format("%.2f é media do IMC (indice de massa corporal) de todos os pacientes",mediaIMC));
+		
 		separador();
 	}
 
