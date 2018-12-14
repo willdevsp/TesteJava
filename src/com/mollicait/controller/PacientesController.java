@@ -21,10 +21,9 @@ public class PacientesController {
 			Paciente paciente = new Paciente();
 
 			try {
-				System.out.print("Digite fim no nome para sair"
-						+ "\nDigite o nome do Paciente: ");
+				System.out.print("Digite fim no nome para sair" + "\nDigite o nome do Paciente: ");
 				String nome = br.readLine();
-				entrada=nome;
+				entrada = nome;
 				if (nome.equalsIgnoreCase("fim"))
 					break;
 				System.out.print("Digite M para Sexo Masculino ou F para Sexo Feminino: ");
@@ -41,7 +40,7 @@ public class PacientesController {
 				paciente.setIdade(Integer.parseInt(idade));
 				paciente.setAltura(Double.parseDouble(altura));
 				paciente.setPeso(Double.parseDouble(peso));
-				System.out.println("Paciente : "+paciente.getNome()+" Cadastrado com sucesso");
+				System.out.println(String.format("Paciente %s cadastrado com sucesso", paciente.getNome()));
 
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -54,124 +53,129 @@ public class PacientesController {
 
 		return pacientes;
 	}
-	
-	public void quantidadePacientes(List<Paciente> pacientes){
-		System.out.println("Quantidade de pacientes cadastrados: "+pacientes.size());		
+
+	public void quantidadePacientes(List<Paciente> pacientes) {
+		System.out.println(String.format("%s Pacientes cadastrados: ", pacientes.size()));
 		separador();
 	}
-	
-	public void mediaIdadeHomens(List<Paciente> pacientes){		
+
+	public void mediaIdadeHomens(List<Paciente> pacientes) {
+
 		double media = 0;
-		if(pacientes.isEmpty()){
+		if (pacientes.isEmpty()) {
 			System.out.println("não existem pacientes homens");
-		}else{
+		} else {
 			double idade = 0;
 			long qttHomem = 0;
-			for(Paciente paciente: pacientes){				
-				if(paciente.getSexo() == Sexo.M){
-					 idade+= paciente.getIdade();
-					 qttHomem++;
-				}								
-			}
-			media = idade/qttHomem;
-		}
-		
-		System.out.println("A Media de idade dos homens é de: "+media+" anos");
-		separador();
-	}
-	
-	public void quantidadeMulheresAlturaPeso(List<Paciente> pacientes){
-		long qttMulheres = 0;
-		if(pacientes.isEmpty()){
-			System.out.println("NÃ£o existem pacientes mulheres");
-		}else{
-			for(Paciente paciente: pacientes){
-				if(paciente.getSexo() == Sexo.F){
-					if((paciente.getAltura()<=1.70) && (paciente.getAltura() >= 1.60) && paciente.getPeso()>70){
-						qttMulheres++;					
-					}
-					
+			for (Paciente paciente : pacientes) {
+				if (paciente.getSexo() == Sexo.M) {
+					idade += paciente.getIdade();
+					qttHomem++;
 				}
 			}
-		}		
-		System.out.println("A quantidade de mulheres com altura entre 1,60 e 1,70 e acima de 70 kilos é de: "+ qttMulheres);
+			media = idade / qttHomem;
+		}
+
+		System.out.println(String.format("Média de idade dos pacientes homens %S anos", media));
 		separador();
 	}
-	
-	public void quantidadePessoasEntreIdades(List<Paciente> pacientes){
+
+	public void quantidadeMulheresAlturaPeso(List<Paciente> pacientes) {
+
+		long qttMulheres = 0;
+		if (pacientes.isEmpty()) {
+			System.out.println("Não existem pacientes mulheres");
+		} else {
+			for (Paciente paciente : pacientes) {
+				if (paciente.getSexo() == Sexo.F) {
+					if ((paciente.getAltura() <= 1.70) && (paciente.getAltura() >= 1.60) && paciente.getPeso() > 70) {
+						qttMulheres++;
+					}
+
+				}
+			}
+		}
+		System.out.println(String.format("%s mulher(es) com Altura entre 1.60cm e 1.70cm com pe so maior que 70 quilos",
+				qttMulheres));
+		separador();
+	}
+
+	public void quantidadePessoasEntreIdades(List<Paciente> pacientes) {
+
 		long qttPaciente = 0;
-		if(pacientes.isEmpty()){
-			System.out.println("NÃ£o existem pacientes cadastrado");
-		}else{ 
-			for(Paciente paciente: pacientes){
-				if(paciente.getIdade()>=18 && paciente.getIdade()<=25){
+		if (pacientes.isEmpty()) {
+			System.out.println("Não existem pacientes cadastrado");
+		} else {
+			for (Paciente paciente : pacientes) {
+				if (paciente.getIdade() >= 18 && paciente.getIdade() <= 25) {
 					qttPaciente++;
 				}
 			}
 		}
-		System.out.println("A quantidade de pacientes entre 18 e 25 anos Ã© de : "+qttPaciente);
+
+		System.out.println(String.format("%s pacientes entre 18 e 25 anos", qttPaciente));
 		separador();
 	}
-	
+
 	public void nomePacienteMaisVelho(List<Paciente> pacientes) {
 		String nomePacienteMaisVelho = null;
-		if(pacientes.isEmpty()) {
+		if (pacientes.isEmpty()) {
 			System.out.println("Não existem pacientes cadastrado");
-		}else {
+		} else {
 			int pacienteMaisVelho = 0;
-			for(Paciente paciente: pacientes) {				
-				if(paciente.getIdade()>pacienteMaisVelho) {
+			for (Paciente paciente : pacientes) {
+				if (paciente.getIdade() > pacienteMaisVelho) {
 					pacienteMaisVelho = paciente.getIdade();
 					nomePacienteMaisVelho = paciente.getNome();
 				}
-				 
+
 			}
 		}
-		System.out.println("O paciente mais velho se chama: " + nomePacienteMaisVelho);
+		System.out.println(String.format("%s é o paciente mais velho", nomePacienteMaisVelho));
 		separador();
 	}
-	
+
 	public void nomeMulherMaisBaixa(List<Paciente> pacientes) {
 		String nomeMulherMaisBaixa = null;
-		if(pacientes.isEmpty()) {
+		if (pacientes.isEmpty()) {
 			System.out.println("Não existem pacientes cadastrado");
-		}else {
+		} else {
 			Collections.sort(pacientes);
-			nomeMulherMaisBaixa=pacientes.stream().findFirst().get().getNome();
-			
+			nomeMulherMaisBaixa = pacientes.stream().findFirst().get().getNome();
+
 		}
 		System.out.println(String.format("A paciente mais baixa se chama: %s", nomeMulherMaisBaixa));
 		separador();
 	}
-	
-	
+
 	public void calculaIMC(List<Paciente> pacientes) {
-		
-		if(pacientes.isEmpty()) {
+
+		if (pacientes.isEmpty()) {
 			System.out.println("Não existem pacientes cadastrado");
-		}else {
-			for(Paciente paciente: pacientes) {
+		} else {
+			for (Paciente paciente : pacientes) {
 				double altura = paciente.getAltura();
 				double peso = paciente.getPeso();
-				double imc = peso/(altura*altura);
+				double imc = peso / (altura * altura);
 				String msg = null;
-				if(imc < 18) {
+				if (imc < 18) {
 					msg = "abaixo do peso";
-				}else if((imc>=18) && (imc <=25)) {
+				} else if ((imc >= 18) && (imc <= 25)) {
 					msg = "peso normal";
-				}else {
+				} else {
 					msg = "Obeso";
 				}
-				System.out.println(String.format("A Media de peso de %s é %.2f sua situação é  %s ", paciente.getNome(), imc,msg));
-				
+				System.out.println(String.format("A Media de peso de %s é %.2f sua situação é  %s ", paciente.getNome(),
+						imc, msg));
+
 			}
 		}
 		separador();
 	}
-	
-	public void separador (){
+
+	public void separador() {
 		System.out.println("\n============================================================"
 				+ "============================================================\n");
 	}
-	
+
 }
