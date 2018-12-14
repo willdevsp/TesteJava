@@ -111,6 +111,24 @@ public class PacientesController {
 		separador();
 	}
 	
+	public void nomePacienteMaisVelho(List<Paciente> pacientes) {
+		String nomePacienteMaisVelho = null;
+		if(pacientes.size() == 0) {
+			System.out.println("Não existem pacientes cadastrado");
+		}else {
+			int pacienteMaisVelho = 0;
+			for(Paciente paciente: pacientes) {				
+				if(paciente.getIdade()>pacienteMaisVelho) {
+					pacienteMaisVelho = paciente.getIdade();
+					nomePacienteMaisVelho = paciente.getNome();
+				}
+				 
+			}
+		}
+		System.out.println("O paciente mais velho se chama: " + nomePacienteMaisVelho);
+		
+	}
+	
 	public void separador (){
 		System.out.println("\n============================================================"
 				+ "============================================================\n");

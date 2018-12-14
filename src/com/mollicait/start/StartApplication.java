@@ -18,6 +18,7 @@ public class StartApplication {
 			pacientesController.mediaIdadeHomens(pacientes);
 			pacientesController.quantidadeMulheresAlturaPeso(pacientes);
 			pacientesController.quantidadePessoasEntreIdades(pacientes);
+			pacientesController.nomePacienteMaisVelho(pacientes);
 			
 	}
 }
