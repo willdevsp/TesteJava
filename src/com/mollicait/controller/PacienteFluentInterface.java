@@ -28,7 +28,7 @@ public class PacienteFluentInterface {
 			Paciente paciente = new Paciente();
 
 			try {
-				System.out.println("***Digite fim no nome para sair***\n" + "\nDigite o nome do Paciente: ");
+				System.out.print("***Digite fim no nome para sair***\n" + "\nDigite o nome do Paciente: ");
 				String nome = br.readLine();
 				entrada = nome;
 				if (nome.equalsIgnoreCase("fim"))
