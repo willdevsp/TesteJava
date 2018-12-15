@@ -6,7 +6,6 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Optional;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -14,18 +13,22 @@ import java.util.stream.Stream;
 import com.mollicait.model.Paciente;
 import com.mollicait.model.Sexo;
 
-public class PacienteController {
-
-	public List<Paciente> cadastrarPacientes() {
+public class PacienteFluentInterface {
+	List<Paciente> pacientes;
+	public PacienteFluentInterface() {
+		pacientes = new ArrayList<Paciente>();
+	}
+	
+	public PacienteFluentInterface cadastrarPacientes() {
 		String entrada = "";
-		List<Paciente> pacientes = new ArrayList<Paciente>();
+		pacientes = new ArrayList<Paciente>();
 		System.out.println("====== Cadastro de pacientes ======\n\n");
 		while (!entrada.equals("fim")) {
 			BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 			Paciente paciente = new Paciente();
 
 			try {
-				System.out.print("Digite fim no nome para sair" + "\nDigite o nome do Paciente: ");
+				System.out.println("***Digite fim no nome para sair***\n" + "\nDigite o nome do Paciente: ");
 				String nome = br.readLine();
 				entrada = nome;
 				if (nome.equalsIgnoreCase("fim"))
@@ -55,15 +58,16 @@ public class PacienteController {
 
 		separador();
 
-		return pacientes;
+		return this;
 	}
 
-	public void quantidadePacientes(List<Paciente> pacientes) {
-		System.out.println(String.format("%s Pacientes cadastrados ", pacientes.size()));
+	public PacienteFluentInterface quantidadePacientes() {
+		System.out.println(String.format("%s Paciente(s) cadastrados ", pacientes.size()));
 		separador();
+		return this;
 	}
 
-	public void mediaIdadeHomens(List<Paciente> pacientes) {
+	public PacienteFluentInterface mediaIdadeHomens() {
 		double mediaIdade = 0;
 		Supplier<Stream<Paciente>> homens = () -> pacientes.stream().filter(p -> p.getSexo()== Sexo.M);
 		long qttHomens = homens.get().count();
@@ -75,9 +79,10 @@ public class PacienteController {
 		}
 		
 		separador();
+		return this;
 	}
 
-	public void quantidadeMulheresAlturaPeso(List<Paciente> pacientes) {
+	public PacienteFluentInterface quantidadeMulheresAlturaPeso() {
 
 		List<Paciente> pacientesFilter = new ArrayList<Paciente>();
 		if (pacientes.isEmpty()) {
@@ -94,9 +99,10 @@ public class PacienteController {
 		}
 
 		separador();
+		return this;
 	}
 
-	public void quantidadePessoasEntreIdades(List<Paciente> pacientes) {
+	public PacienteFluentInterface quantidadePessoasEntreIdades() {
 
 		List<Paciente> pacientesFilter = new ArrayList<Paciente>();
 		if (pacientes.isEmpty()) {
@@ -111,9 +117,10 @@ public class PacienteController {
 
 		
 		separador();
+		return this;
 	}
 
-	public void nomePacienteMaisVelho(List<Paciente> pacientes) {
+	public PacienteFluentInterface nomePacienteMaisVelho() {
 		Paciente pacienteComparator = new Paciente();
 		if (pacientes.isEmpty()) {
 			System.out.println("Não existem pacientes cadastrado");
@@ -124,9 +131,10 @@ public class PacienteController {
 		}
 		
 		separador();
+		return this;
 	}
 
-	public void nomeMulherMaisBaixa(List<Paciente> pacientes) {		
+	public PacienteFluentInterface nomeMulherMaisBaixa() {		
 			Comparator<Paciente> comparator = Comparator.comparing(Paciente::getAltura);
 			Supplier<Stream<Paciente>> mulheresPaciente = () -> pacientes.stream().filter(p -> p.getSexo()== Sexo.F);			
 			if(mulheresPaciente.get().count() != 0) {
@@ -135,10 +143,10 @@ public class PacienteController {
 				System.out.println(String.format("%s é a paciente mais baixa ", mulherMaisBaixa.getNome()));
 				separador();
 			}
-		
+		return this;
 	}
 
-	public void calculaIMC(List<Paciente> pacientes) {
+	public PacienteFluentInterface calculaIMC() {
 		if (pacientes.isEmpty()) {
 			System.out.println("Não existem pacientes cadastrado");
 		} else {
@@ -163,6 +171,7 @@ public class PacienteController {
 		}
 		
 		separador();
+		return this;
 	}
 
 	public void separador() {
