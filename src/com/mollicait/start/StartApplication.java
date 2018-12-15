@@ -2,7 +2,7 @@ package com.mollicait.start;
 
 import java.util.List;
 
-import com.mollicait.controller.PacientesController;
+import com.mollicait.controller.PacienteController;
 import com.mollicait.model.Paciente;
 
 public class StartApplication {
@@ -11,7 +11,7 @@ public class StartApplication {
 	}
 	
 	public static void execute(){
-		PacientesController pacientesController = new PacientesController();
+		PacienteController pacientesController = new PacienteController();
 			List<Paciente> pacientes = pacientesController.cadastrarPacientes();	
 			pacientesController.quantidadePacientes(pacientes);	
 			pacientesController.mediaIdadeHomens(pacientes);

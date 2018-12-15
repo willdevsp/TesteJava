@@ -14,7 +14,7 @@ import java.util.stream.Stream;
 import com.mollicait.model.Paciente;
 import com.mollicait.model.Sexo;
 
-public class PacientesController {
+public class PacienteController {
 
 	public List<Paciente> cadastrarPacientes() {
 		String entrada = "";
