@@ -4,13 +4,15 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.mollicait.model.Paciente;
 import com.mollicait.model.Sexo;
 
-public class PacientesController {
+public class PacienteController {
 
 	public List<Paciente> cadastrarPacientes() {
 		String entrada = "";
@@ -28,7 +30,7 @@ public class PacientesController {
 					break;
 				System.out.print("Digite M para Sexo Masculino ou F para Sexo Feminino: ");
 				String sexo = br.readLine();
-				System.out.println("Digite a idade do paciente");
+				System.out.print("Digite a idade do paciente: ");
 				String idade = br.readLine();
 				System.out.print("Digite a altura do paciente: ");
 				String altura = br.readLine();
@@ -137,13 +139,17 @@ public class PacientesController {
 
 	public void nomeMulherMaisBaixa(List<Paciente> pacientes) {
 		String nomeMulherMaisBaixa = null;
-		if (pacientes.isEmpty()) {
-			System.out.println("Não existem pacientes cadastrado");
+		List<Paciente> mulheresPacientes = pacientes.stream().filter(m ->m.getSexo() == Sexo.F)
+				.collect(Collectors.toList());
+		if (mulheresPacientes.size()== 0) {
+			System.out.println("Não existem mulheres pacientes cadastrado");
 		} else {
-			Collections.sort(pacientes);
-			nomeMulherMaisBaixa = pacientes.stream().findFirst().get().getNome();
+			Collections.sort(mulheresPacientes);
+			nomeMulherMaisBaixa = mulheresPacientes.stream()
+					.findFirst().get().getNome();
+			System.out.println(String.format("%s é a paciente mais baixa", nomeMulherMaisBaixa));
+
 		}
-		System.out.println(String.format("%s é a paciente mais baixa", nomeMulherMaisBaixa));
 		separador();
 	}
 

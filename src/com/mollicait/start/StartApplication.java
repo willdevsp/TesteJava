@@ -1,11 +1,9 @@
 package com.mollicait.start;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import com.mollicait.controller.PacientesController;
+import com.mollicait.controller.PacienteController;
 import com.mollicait.model.Paciente;
-import com.mollicait.model.Sexo;
 
 public class StartApplication {
 	public static void main(String[] args) {		
@@ -13,16 +11,15 @@ public class StartApplication {
 	}
 	
 	public static void execute(){
-		PacientesController pacientesController = new PacientesController();
-		List<Paciente> pacientes = pacientesController.cadastrarPacientes();
-		pacientesController.quantidadePacientes(pacientes);	
-		pacientesController.mediaIdadeHomens(pacientes);
-		pacientesController.quantidadeMulheresAlturaPeso(pacientes);
-		pacientesController.quantidadePessoasEntreIdades(pacientes);
-		pacientesController.nomePacienteMaisVelho(pacientes);
-		pacientesController.nomeMulherMaisBaixa(pacientes);
-		pacientesController.calculaIMC(pacientes);							
-		System.out.println("Fim . . .");
+		PacienteController pController = new PacienteController();
+		List<Paciente> pacientes = pController.cadastrarPacientes();
+		pController.quantidadePacientes(pacientes);	
+		pController.mediaIdadeHomens(pacientes);
+		pController.quantidadeMulheresAlturaPeso(pacientes);
+		pController.quantidadePessoasEntreIdades(pacientes);
+		pController.nomePacienteMaisVelho(pacientes);
+		pController.nomeMulherMaisBaixa(pacientes);
+		pController.calculaIMC(pacientes);		
 			
 	}
 }
