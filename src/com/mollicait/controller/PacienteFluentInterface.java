@@ -61,13 +61,13 @@ public class PacienteFluentInterface {
 		return this;
 	}
 
-	public PacienteFluentInterface quantidadePacientes() {
+	public PacienteFluentInterface exibirQuantidadePacientes() {
 		System.out.println(String.format("%s Paciente(s) cadastrados ", pacientes.size()));
 		separador();
 		return this;
 	}
 
-	public PacienteFluentInterface mediaIdadeHomens() {
+	public PacienteFluentInterface calcularMediaIdadeHomens() {
 		double mediaIdade = 0;
 		Supplier<Stream<Paciente>> homens = () -> pacientes.stream().filter(p -> p.getSexo()== Sexo.M);
 		long qttHomens = homens.get().count();
@@ -82,7 +82,7 @@ public class PacienteFluentInterface {
 		return this;
 	}
 
-	public PacienteFluentInterface quantidadeMulheresAlturaPeso() {
+	public PacienteFluentInterface calcularQuantidadeMulheresAlturaPeso() {
 
 		List<Paciente> pacientesFilter = new ArrayList<Paciente>();
 		if (pacientes.isEmpty()) {
@@ -102,7 +102,7 @@ public class PacienteFluentInterface {
 		return this;
 	}
 
-	public PacienteFluentInterface quantidadePessoasEntreIdades() {
+	public PacienteFluentInterface calcularQuantidadePessoasEntreIdades() {
 
 		List<Paciente> pacientesFilter = new ArrayList<Paciente>();
 		if (pacientes.isEmpty()) {
@@ -120,7 +120,7 @@ public class PacienteFluentInterface {
 		return this;
 	}
 
-	public PacienteFluentInterface nomePacienteMaisVelho() {
+	public PacienteFluentInterface exibirNomePacienteMaisVelho() {
 		Paciente pacienteComparator = new Paciente();
 		if (pacientes.isEmpty()) {
 			System.out.println("Não existem pacientes cadastrado");
@@ -134,7 +134,7 @@ public class PacienteFluentInterface {
 		return this;
 	}
 
-	public PacienteFluentInterface nomeMulherMaisBaixa() {		
+	public PacienteFluentInterface exibirNomeMulherMaisBaixa() {		
 			Comparator<Paciente> comparator = Comparator.comparing(Paciente::getAltura);
 			Supplier<Stream<Paciente>> mulheresPaciente = () -> pacientes.stream().filter(p -> p.getSexo()== Sexo.F);			
 			if(mulheresPaciente.get().count() != 0) {
@@ -146,7 +146,7 @@ public class PacienteFluentInterface {
 		return this;
 	}
 
-	public PacienteFluentInterface calculaIMC() {
+	public PacienteFluentInterface calcularImcDePacientes() {
 		if (pacientes.isEmpty()) {
 			System.out.println("Não existem pacientes cadastrado");
 		} else {
